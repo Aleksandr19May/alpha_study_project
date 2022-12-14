@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_study_project/page2.dart';
 import 'package:alpha_study_project/settings.dart';
+ // мой коммит
 
+
+ int a = 5;
 void main() {
   runApp(const MyApp());
 }
