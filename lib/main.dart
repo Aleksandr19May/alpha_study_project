@@ -4,7 +4,7 @@ import 'package:alpha_study_project/settings.dart';
  // мой коммит
 
 
- int a = 5;
+ int a = 6;
 void main() {
   runApp(const MyApp());
 }
