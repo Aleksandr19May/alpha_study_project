@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_study_project/page2.dart';
 import 'package:alpha_study_project/settings.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
  // мой коммит
 
 
@@ -102,6 +103,11 @@ class Page1 extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [Container(
+                              width: 100,
+                              height: 100,
+                              child: Image(image: AssetImage('assets/images/pic.png')),
+                            ),],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -128,6 +134,7 @@ class Page1 extends StatelessWidget {
                                     color: Colors.white,
                                   )),
                             ),
+                            
                             Container(
                                 height: 130,
                                 width: 150,
@@ -147,6 +154,7 @@ class Page1 extends StatelessWidget {
                                       'Dhikr',
                                       style: TextStyle(color: Colors.white),
                                     ),
+                                    
                                   ],
                                 )),
                             Container(
