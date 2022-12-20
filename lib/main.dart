@@ -103,77 +103,11 @@ class Page1 extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [Container(
-                              width: 100,
-                              height: 100,
-                              child: Image(image: AssetImage('assets/images/pic.png')),
-                            ),],),
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 200,
-                        width: 370,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 86, 137, 255)),
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                            
-                            Container(
-                                height: 130,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromARGB(255, 57, 92, 220)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text('33',
-                                        style: TextStyle(
-                                            fontSize: 45,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white)),
-                                    Text(
-                                      'Dhikr',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    
-                                  ],
-                                )),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 86, 137, 255)),
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.replay,
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ],
-                        ),
-                      ),
+                     const  Counter(),
                     ],
                   ),
                   Row(
@@ -360,5 +294,83 @@ class Page1 extends StatelessWidget {
                     ],
                   )
                 ])));
+  }
+}
+
+class Counter extends StatefulWidget {
+  const Counter({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<Counter> createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      width: 370,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color:
+                    const Color.fromARGB(255, 86, 137, 255)),
+            child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.remove,
+                  color: Colors.white,
+                )),
+          ),
+          
+          Container(
+              height: 130,
+              width: 150,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color:
+                      const Color.fromARGB(255, 57, 92, 220)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('33',
+                      style: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  Text(
+                    'Dhikr',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  
+                ],
+              )),
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color:
+                    const Color.fromARGB(255, 86, 137, 255)),
+            child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.replay,
+                  color: Colors.white,
+                )),
+          ),
+        ],
+      ),
+    );
   }
 }
