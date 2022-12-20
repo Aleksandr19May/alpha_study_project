@@ -40,8 +40,8 @@ dependencies:
 
 flutter_native_splash:
   color: "#42a5f5" 
-  image: assets/images/used.png
-  branding: assets/images/pic.png
+  image: assets/images/pic.png
+  # branding: assets/images/pic.png
   
 
 dev_dependencies:
