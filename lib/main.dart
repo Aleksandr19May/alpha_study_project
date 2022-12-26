@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:alpha_study_project/page2.dart';
 import 'package:alpha_study_project/settings.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // мой коммит
-
+var activity = true;
 int a = 6;
 void main() {
   runApp(const MyApp());
@@ -25,15 +26,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Page1 extends StatelessWidget {
+class Page1 extends StatefulWidget {
   const Page1({super.key});
 
+  @override
+  State<Page1> createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
             backgroundColor: const Color.fromARGB(255, 238, 231, 231),
-            body: Column(
+            body:  Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(
@@ -49,20 +55,25 @@ class Page1 extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(35, 5, 5, 5),
-                              height: 30,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color:
-                                      const Color.fromARGB(255, 57, 92, 220)),
-                              child: const Text(
-                                'Activity',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontFamily: 'Gilroy-Black'),
+                            InkWell (
+                              onTap: () => setState(() {
+                                activity = true;
+                              }),
+                              child: Container(
+                                padding: const EdgeInsets.fromLTRB(35, 5, 5, 5),
+                                height: 30,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:
+                                        activity ? Color.fromARGB(255, 57, 92, 220) : Colors.white),
+                                child:  Text(
+                                  'Activity',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: activity ? Colors.white : Color.fromARGB(255, 174, 166, 166),
+                                      fontFamily: 'Gilroy-Black'),
+                                ),
                               ),
                             ),
                             Container(
@@ -71,16 +82,19 @@ class Page1 extends StatelessWidget {
                               width: 120,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white),
+                                  color: activity ?Colors.white : Color.fromARGB(255, 57, 92, 220) ),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/Page2');
+                                  activity = false;
+                                  setState(() {
+                                    
+                                  });
                                 },
-                                child: const Text(
+                                child:  Text(
                                   'Saved',
                                   style: TextStyle(
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 174, 166, 166),
+                                      color: activity ? Color.fromARGB(255, 174, 166, 166) : Colors.white,
                                       fontFamily: 'Gilroy-Black'),
                                 ),
                               ),
@@ -107,13 +121,14 @@ class Page1 extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
+                  activity ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       const Counter(),
                     ],
-                  ),
-                  Row(
+                  ) : const SizedBox.shrink(),
+                  activity ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
@@ -132,182 +147,75 @@ class Page1 extends StatelessWidget {
                         ),
                       )
                     ],
-                  ),
+                  ) : const  SizedBox.shrink(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        height: 300,
-                        width: 370,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                                width: 320,
-                                height: 22,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white),
-                                child: Column(
+                          height: 340,
+                          width:360,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white),
+                          child: 
+                           ListView.builder(
+                              padding:  const EdgeInsets.all(25),
+                              itemCount: 10,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Column(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          'Last saved dhikrs',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
-                                              fontFamily: 'Gilroy-Black'),
-                                        )
-                                      ],
-                                    ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          1, 1, 250, 1),
-                                      width: 65,
-                                      height: 2,
-                                      color: const Color.fromARGB(
-                                          255, 86, 137, 255),
+                                        height: 50,
+                                        width: 320,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: const  Color.fromARGB(
+                                            255, 238, 231, 231)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: const [
+                                            Text(
+                                              '14',
+                                              style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 86, 137, 255),
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w700, fontFamily: 'Gilroy-Black'),
+                                            ),
+                                            Text(
+                                              'Name of the file dhikr',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400, fontFamily: 'Gilroy-Black'),
+                                            ),
+                                            Text(
+                                              '19.02.2021',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400, fontFamily: 'Gilroy-Black'),
+                                            ),
+                                            Icon(
+                                              Icons.more_horiz,
+                                              color:
+                                                  Color.fromARGB(255, 86, 137, 255),
+                                            )
+                                          ],
+                                        )),
+                                    const SizedBox(
+                                      height: 20,
                                     )
                                   ],
-                                )),
-                            Container(
-                                width: 320,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 238, 231, 231)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text(
-                                      '14',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 86, 137, 255),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      'Name of the file dhikr',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      '19.02.2021',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Icon(
-                                      Icons.more_horiz,
-                                      color: Color.fromARGB(255, 86, 137, 255),
-                                    )
-                                  ],
-                                )),
-                            Container(
-                                width: 320,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 238, 231, 231)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text(
-                                      '  9',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 86, 137, 255),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      'Name of the file dhikr',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      '19.02.2021',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Icon(
-                                      Icons.more_horiz,
-                                      color: Color.fromARGB(255, 86, 137, 255),
-                                    )
-                                  ],
-                                )),
-                            Container(
-                                width: 320,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(
-                                        255, 238, 231, 231)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: const [
-                                    Text(
-                                      '15',
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 86, 137, 255),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      'Name of the file dhikr',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Text(
-                                      '19.02.2021',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'Gilroy-Black'),
-                                    ),
-                                    Icon(
-                                      Icons.more_horiz,
-                                      color: Color.fromARGB(255, 86, 137, 255),
-                                    )
-                                  ],
-                                )),
-                          ],
-                        ),
-                      )
+                                );
+                              })),
                     ],
                   )
-                ])));
+                ]) 
+                )
+                );
   }
 }
 
@@ -321,7 +229,52 @@ class Counter extends StatefulWidget {
 }
 
 class _CounterState extends State<Counter> {
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   int counter = 0;
+  final String keyCount = 'counter';
+
+  Future<void> dataBase() async {
+    final SharedPreferences _prefs = await prefs;
+    if (_prefs.getInt(keyCount) == null) {
+      _prefs.setInt(keyCount, 0);
+    } else {
+      counter = _prefs.getInt(keyCount)!;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    dataBase();
+    super.initState();
+  }
+
+  void saveData() async {
+    final SharedPreferences _prefs = await prefs;
+    _prefs.setInt(keyCount, counter);
+    setState(() {});
+  }
+
+  void increment() async {
+    counter++;
+    saveData();
+  }
+
+  void decrement() {
+    if (counter > 0) {
+      counter--;
+    }
+     saveData();
+  }
+
+  void makeZero() {
+    if (counter > 0) {
+      counter = 0;
+       saveData();
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -341,13 +294,7 @@ class _CounterState extends State<Counter> {
                 height: 40,
                 width: 40,
                 child: IconButton(
-                    onPressed: () {
-                      if (counter<=0) {
-                        counter=0;
-                      } else {
-                      counter--;}
-                      setState(() {});
-                    },
+                    onPressed: () => decrement(),
                     icon: const Icon(
                       Icons.remove,
                       color: Colors.white,
@@ -359,14 +306,7 @@ class _CounterState extends State<Counter> {
             borderRadius: BorderRadius.circular(10),
             color: const Color.fromARGB(255, 57, 92, 220),
             child: InkWell(
-              onTap: () {
-                counter++;
-                
-                
-                setState(() {
-                  
-                });
-              },
+              onTap: () => increment(),
               child: SizedBox(
                   height: 150,
                   width: 150,
@@ -390,18 +330,11 @@ class _CounterState extends State<Counter> {
               borderRadius: BorderRadius.circular(10),
               color: const Color.fromARGB(255, 86, 137, 255),
               child: InkWell(
-                
                 child: SizedBox(
                   height: 40,
                   width: 40,
                   child: IconButton(
-                      onPressed: () {
-                        counter=0;
-                        
-                        setState(() {
-                          
-                        });
-                      },
+                      onPressed: () => makeZero(),
                       icon: const Icon(
                         Icons.replay,
                         color: Colors.white,
