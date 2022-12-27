@@ -128,26 +128,45 @@ class _Page1State extends State<Page1> {
                       const Counter(),
                     ],
                   ) : const SizedBox.shrink(),
-                  activity ? Row(
+                  if (activity) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(150, 15, 50, 10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        height: 50,
-                        width: 370,
-                        child: const Text(
-                          'Save dhikr',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 86, 137, 255),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
+                      InkWell(
+                        onTap: () =>
+                          showDialog(context: context, builder: (BuildContext context) => const AlertDialog(
+title: Text('Save Dhikr'),
+content: TextField(
+  decoration: InputDecoration(hintText: 'Имя игрока',
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1,color: Colors.grey,))
+  ),
+),
+actions:  [
+
+    
+  
+],
+                          ))
+                        ,
+                        child: Container(
+                         
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white),
+                          height: 50,
+                          width: 370,
+                          child: const  Center(
+                            child:  Text(
+                              'Save dhikr',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 86, 137, 255),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
                         ),
                       )
                     ],
-                  ) : const  SizedBox.shrink(),
+                  ) else const  SizedBox.shrink(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
