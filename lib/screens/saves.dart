@@ -20,6 +20,27 @@ class Saves extends StatelessWidget {
 
     return Column(
       children: [
+        
+        Expanded(
+          child: ItemZikr(widthScreen: widthScreen),
+        ),
+      ],
+    );
+  }
+}
+
+class ItemZikr extends StatelessWidget {
+  const ItemZikr({
+    Key? key,
+    required this.widthScreen,
+  }) : super(key: key);
+
+  final double widthScreen;
+
+  @override
+  Widget build(BuildContext context) {
+     return Column(
+      children: [
         Container(
           width: widthScreen,
           height: 62,
@@ -62,7 +83,7 @@ class Saves extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            width: widthScreen,
+            //width: widthScreen,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
               color: Colors.white,
@@ -73,44 +94,74 @@ class Saves extends StatelessWidget {
                 itemCount: zikrs.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          color: Color.fromARGB(255, 244, 240, 240)),
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      height: 50,
-                      width: widthScreen,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox( width: widthScreen*0.1,
-                            child: Text(zikrs[index].counter.toString(),
-                                style: const TextStyle(
-                                    color: Color.fromARGB(255, 2, 75, 202), fontSize: 18,fontWeight: FontWeight.bold)),
-                          ),
-                          Container(
-                            height: 20,
-                            width: 2,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: widthScreen*0.3,child: Text(zikrs[index].title+zikrs[index].title+zikrs[index].title, style: TextStyle(fontSize: 14),)),
-                          SizedBox(width: widthScreen*0.3,
-                            child: Text(DateFormat('dd.MM.yy (kk:mm)').format(zikrs[index].dateTime,),
-                              style: TextStyle(fontSize: 12)),
-                          ),
-                          SizedBox(width: widthScreen*0.2,
-                            child: IconButton(
-                              onPressed: (() {}),
-                              icon: const Icon(Icons.more_horiz),
-                              color: const Color.fromARGB(255, 2, 75, 202),
+                  return Container(
+                    height: 49,
+                    //width: widthScreen,
+                    margin: const EdgeInsets.only(top: 10),
+                    //padding: const EdgeInsets.symmetric(horizontal: 15),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Color.fromARGB(255, 249, 246, 246),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.15,
+                          child: Center(
+                            child: Text(
+                              zikrs[index].counter.toString(),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 2, 75, 202),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.48,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 20,
+                                width: 2,
+                                margin: const EdgeInsets.only(right: 10),
+                                color: Colors.white,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  zikrs[index].title,
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.25,
+                          child: Text(
+                            DateFormat('dd.MM.yy (kk:mm)')
+                                .format(zikrs[index].dateTime),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(right: 25),
+                          width: (widthScreen - 60) * 0.12,
+                          // color: Colors.red,
+                          child: IconButton(
+                            onPressed: () {
+                            
+                          }, icon: Icon(Icons.more_horiz))
+                          
+                        ),
+                      ],
                     ),
                   );
                 },
