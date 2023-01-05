@@ -2,7 +2,7 @@
 import 'package:alpha_study_project/screens/home.dart';
 import 'package:flutter/material.dart';
 
-import 'package:alpha_study_project/settings.dart';
+import 'package:alpha_study_project/screens/settings.dart';
 
 
 
