@@ -131,7 +131,7 @@ class ItemZikr extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  zikrs[index].title,
+                                  zikrs[index].title+zikrs[index].title+zikrs[index].title+zikrs[index].title,
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.black),
                                 ),
