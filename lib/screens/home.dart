@@ -254,6 +254,7 @@ class _HomeState extends State<Home> {
               Expanded(
                 // child: Saves(),
                 child: ListView.builder(
+                  reverse: true,
                   itemCount: savesZikrs.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
