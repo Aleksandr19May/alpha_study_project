@@ -1,15 +1,18 @@
 import 'package:alpha_study_project/model/zikr.dart';
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 
 final List<Zikr> zikrs = [
-  Zikr(id: 1, counter: 11, dateTime: DateTime.now(), title: 'Первый'),
-  Zikr(id: 2, counter: 22, dateTime: DateTime.now(), title: 'Second'),
-  Zikr(id: 3, counter: 33, dateTime: DateTime.now(), title: 'Первый'),
-  Zikr(id: 4, counter: 44, dateTime: DateTime.now(), title: 'Четвертый'),
-  Zikr(id: 5, counter: 55, dateTime: DateTime.now(), title: 'Первый'),
-  Zikr(id: 6, counter: 66, dateTime: DateTime.now(), title: 'Первый'),
+  Zikr(dateTime: DateTime.now(), counter: 11, title: 'Первый'),
+  Zikr(dateTime: DateTime.now(), counter: 22, title: 'Второй'),
+  Zikr(dateTime: DateTime.now(), counter: 33, title: 'Третий'),
+  Zikr(dateTime: DateTime.now(), counter: 44, title: 'Четвертый'),
+  Zikr(dateTime: DateTime.now(), counter: 55, title: 'Пятый'),
+  Zikr(dateTime: DateTime.now(), counter: 66, title: 'Шестой'),
 ];
+
+// ДЗ - контекст
 
 class Saves extends StatelessWidget {
   const Saves({super.key});
@@ -19,27 +22,6 @@ class Saves extends StatelessWidget {
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Column(
-      children: [
-        
-        Expanded(
-          child: ItemZikr(widthScreen: widthScreen),
-        ),
-      ],
-    );
-  }
-}
-
-class ItemZikr extends StatelessWidget {
-  const ItemZikr({
-    Key? key,
-    required this.widthScreen,
-  }) : super(key: key);
-
-  final double widthScreen;
-
-  @override
-  Widget build(BuildContext context) {
-     return Column(
       children: [
         Container(
           width: widthScreen,
@@ -131,7 +113,7 @@ class ItemZikr extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  zikrs[index].title+zikrs[index].title+zikrs[index].title+zikrs[index].title,
+                                  zikrs[index].title,
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.black),
                                 ),
@@ -152,14 +134,13 @@ class ItemZikr extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.only(right: 25),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
                           width: (widthScreen - 60) * 0.12,
-                          // color: Colors.red,
-                          child: IconButton(
-                            onPressed: () {
-                            
-                          }, icon: Icon(Icons.more_horiz))
-                          
+                          child: Image.asset(
+                            'assets/images/ellipsis.png',
+                            fit: BoxFit.fitWidth,
+                            width: 10,
+                          ),
                         ),
                       ],
                     ),

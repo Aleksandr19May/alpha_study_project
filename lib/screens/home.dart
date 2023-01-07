@@ -1,18 +1,77 @@
+import 'package:alpha_study_project/model/zikr.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
 import 'package:flutter/material.dart';
 
-class Page1 extends StatefulWidget {
-  const Page1({super.key});
+
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<Page1> createState() => _Page1State();
+  State<Home> createState() => _HomeState();
 }
 
-class _Page1State extends State<Page1> {
-  var activity = true;
-   @override
+class _HomeState extends State<Home> {
+  bool activity = true;
+
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  final String keyCounter = 'counter';
+  int counter = 0;
+  String titleZikr = '';
+
+  late Box<Zikr> savesZikrs;
+
+  Future<void> instanceDb() async {
+    final SharedPreferences _prefs = await prefs;
+
+    if (_prefs.getInt(keyCounter) == null) {
+      _prefs.setInt(keyCounter, 0);
+    } else {
+      counter = _prefs.getInt(keyCounter)!;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    instanceDb();
+    savesZikrs = Hive.box<Zikr>('zikrs');
+    super.initState();
+  }
+
+  Future<void> saveCount() async {
+    setState(() {});
+
+    final SharedPreferences _prefs = await prefs;
+    _prefs.setInt(keyCounter, counter);
+  }
+
+  void increment() {
+    counter++;
+    saveCount();
+  }
+
+  void decrement() {
+    if (counter > 0) {
+      counter--;
+      saveCount();
+    }
+  }
+
+  void zeroing() {
+    if (counter > 0) {
+      counter = 0;
+      saveCount();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       body: SafeArea(
@@ -100,7 +159,7 @@ class _Page1State extends State<Page1> {
                         ),
                         child: IconButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/Page3');
+                              Navigator.of(context).pushNamed('/settings');
                             },
                             icon: const Icon(Icons.menu))),
                   ],
@@ -112,7 +171,12 @@ class _Page1State extends State<Page1> {
                         const SizedBox(
                           height: 20,
                         ),
-                        const Counter(),
+                        Counter(
+                          counter: counter,
+                          decrement: decrement,
+                          increment: increment,
+                          zeroing: zeroing,
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -121,8 +185,11 @@ class _Page1State extends State<Page1> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Save Dhikr'),
-                              content: const TextField(
-                                decoration: InputDecoration(
+                              content: TextField(
+                                onChanged: (value) {
+                                  titleZikr = value;
+                                },
+                                decoration: const InputDecoration(
                                   hintText: 'Please enter a title Dhikr',
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -139,7 +206,17 @@ class _Page1State extends State<Page1> {
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    savesZikrs.add(
+                                      Zikr(
+                                        dateTime: DateTime.now(),
+                                        counter: counter,
+                                        title: titleZikr,
+                                      ),
+                                    );
+                                    setState(() {});
+                                    Navigator.pop(context);
+                                  },
                                   child: const Text(
                                     'Save',
                                     style: TextStyle(
@@ -174,12 +251,88 @@ class _Page1State extends State<Page1> {
               const SizedBox(
                 height: 15,
               ),
-              const Expanded(
-                child: Saves(),
+              Expanded(
+                // child: Saves(),
+                child: ListView.builder(
+                  itemCount: savesZikrs.length,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 49,
+                    //width: widthScreen,
+                    margin: const EdgeInsets.only(top: 10),
+                    //padding: const EdgeInsets.symmetric(horizontal: 15),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Color.fromARGB(255, 249, 246, 246),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.15,
+                          child: Center(
+                            child: Text(
+                              savesZikrs.getAt(index)!.counter.toString(),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 2, 75, 202),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.48,
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 20,
+                                width: 2,
+                                margin: const EdgeInsets.only(right: 10),
+                                color: Colors.white,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  savesZikrs.getAt(index)!.title.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: (widthScreen - 60) * 0.25,
+                          child: Text(DateFormat('MM-dd-yyyy HH:mm').format(savesZikrs.getAt(index)!.dateTime)
+                            ,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          width: (widthScreen - 60) * 0.12,
+                          child: Image.asset(
+                            'assets/images/ellipsis.png',
+                            fit: BoxFit.fitWidth,
+                            width: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }}
+  }
+}
+
