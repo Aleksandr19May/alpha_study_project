@@ -21,12 +21,13 @@ class _HomeState extends State<Home> {
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final String keyCounter = 'counter';
   int counter = 0;
-  String titleZikr = '';
+  
 
-  late Box<Zikr> savesZikrs;
 
   Future<void> instanceDb() async {
     final SharedPreferences _prefs = await prefs;
+
+    
 
     if (_prefs.getInt(keyCounter) == null) {
       _prefs.setInt(keyCounter, 0);
@@ -36,6 +37,8 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  late Box<Zikr> savesZikrs;
+  String titleZikr = '';
   @override
   void initState() {
     instanceDb();
@@ -71,6 +74,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // print(savesZikrs.);
     final widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
@@ -252,82 +256,82 @@ class _HomeState extends State<Home> {
                 height: 15,
               ),
               Expanded(
-                // child: Saves(),
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: savesZikrs.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 49,
-                    //width: widthScreen,
-                    margin: const EdgeInsets.only(top: 10),
-                    //padding: const EdgeInsets.symmetric(horizontal: 15),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Color.fromARGB(255, 249, 246, 246),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: (widthScreen - 60) * 0.15,
-                          child: Center(
-                            child: Text(
-                              savesZikrs.getAt(index)!.counter.toString(),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 2, 75, 202),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: (widthScreen - 60) * 0.48,
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 20,
-                                width: 2,
-                                margin: const EdgeInsets.only(right: 10),
-                                color: Colors.white,
-                              ),
-                              Flexible(
-                                child: Text(
-                                  savesZikrs.getAt(index)!.title.toString(),
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.black),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: (widthScreen - 60) * 0.25,
-                          child: Text(DateFormat('MM-dd-yyyy HH:mm').format(savesZikrs.getAt(index)!.dateTime)
-                            ,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                            textAlign: TextAlign.end,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          width: (widthScreen - 60) * 0.12,
-                          child: Image.asset(
-                            'assets/images/ellipsis.png',
-                            fit: BoxFit.fitWidth,
-                            width: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                ),
+                child: Saves(),
+                // child: ListView.builder(
+                //   reverse: true,
+                //   itemCount: savesZikrs.length,
+                // physics: const BouncingScrollPhysics(),
+                // itemBuilder: (context, index) {
+                //   return Container(
+                //     height: 49,
+                //     //width: widthScreen,
+                //     margin: const EdgeInsets.only(top: 10),
+                //     //padding: const EdgeInsets.symmetric(horizontal: 15),
+                //     decoration: const BoxDecoration(
+                //       borderRadius: BorderRadius.all(Radius.circular(10)),
+                //       color: Color.fromARGB(255, 249, 246, 246),
+                //     ),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         SizedBox(
+                //           width: (widthScreen - 60) * 0.15,
+                //           child: Center(
+                //             child: Text(
+                //               savesZikrs.getAt(index)!.counter.toString(),
+                //               style: const TextStyle(
+                //                 fontSize: 20,
+                //                 color: Color.fromARGB(255, 2, 75, 202),
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           width: (widthScreen - 60) * 0.48,
+                //           child: Row(
+                //             children: [
+                //               Container(
+                //                 height: 20,
+                //                 width: 2,
+                //                 margin: const EdgeInsets.only(right: 10),
+                //                 color: Colors.white,
+                //               ),
+                //               Flexible(
+                //                 child: Text(
+                //                   savesZikrs.getAt(index)!.title.toString(),
+                //                   style: const TextStyle(
+                //                       fontSize: 14, color: Colors.black),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           width: (widthScreen - 60) * 0.25,
+                //           child: Text(DateFormat('MM-dd-yyyy HH:mm').format(savesZikrs.getAt(index)!.dateTime)
+                //             ,
+                //             style: const TextStyle(
+                //               fontSize: 12,
+                //               color: Colors.black54,
+                //             ),
+                //             textAlign: TextAlign.end,
+                //           ),
+                //         ),
+                //         Container(
+                //           padding: const EdgeInsets.symmetric(horizontal: 12),
+                //           width: (widthScreen - 60) * 0.12,
+                //           child: Image.asset(
+                //             'assets/images/ellipsis.png',
+                //             fit: BoxFit.fitWidth,
+                //             width: 10,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   );
+                // },
+                // ),
               ),
             ],
           ),

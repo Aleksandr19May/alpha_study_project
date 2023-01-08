@@ -1,6 +1,7 @@
 import 'package:alpha_study_project/model/zikr.dart';
 import 'package:flutter/material.dart';
-
+import 'package:alpha_study_project/screens/home.dart' as savesZikrs;
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 final List<Zikr> zikrs = [
@@ -14,9 +15,21 @@ final List<Zikr> zikrs = [
 
 // ДЗ - контекст
 
-class Saves extends StatelessWidget {
+class Saves extends StatefulWidget {
   const Saves({super.key});
 
+  @override
+  State<Saves> createState() => _SavesState();
+}
+
+class _SavesState extends State<Saves> {
+   late Box<Zikr> savesZikrs;
+   @override
+  void initState() {
+    
+    savesZikrs = Hive.box<Zikr>('zikrs');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final widthScreen = MediaQuery.of(context).size.width;
@@ -73,7 +86,8 @@ class Saves extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ListView.builder(
-                itemCount: zikrs.length,
+                  reverse: true,
+                  itemCount: savesZikrs.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
@@ -92,7 +106,7 @@ class Saves extends StatelessWidget {
                           width: (widthScreen - 60) * 0.15,
                           child: Center(
                             child: Text(
-                              zikrs[index].counter.toString(),
+                              savesZikrs.getAt(index)!.counter.toString(),
                               style: const TextStyle(
                                 fontSize: 20,
                                 color: Color.fromARGB(255, 2, 75, 202),
@@ -113,7 +127,7 @@ class Saves extends StatelessWidget {
                               ),
                               Flexible(
                                 child: Text(
-                                  zikrs[index].title,
+                                  savesZikrs.getAt(index)!.title.toString(),
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.black),
                                 ),
@@ -123,9 +137,8 @@ class Saves extends StatelessWidget {
                         ),
                         SizedBox(
                           width: (widthScreen - 60) * 0.25,
-                          child: Text(
-                            DateFormat('dd.MM.yy (kk:mm)')
-                                .format(zikrs[index].dateTime),
+                          child: Text(DateFormat('MM-dd-yyyy HH:mm').format(savesZikrs.getAt(index)!.dateTime)
+                            ,
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.black54,
@@ -146,7 +159,7 @@ class Saves extends StatelessWidget {
                     ),
                   );
                 },
-              ),
+                ),
               //zdes
             ),
           ),
