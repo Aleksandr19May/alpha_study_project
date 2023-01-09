@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
   }
 
   late Box<Zikr> savesZikrs;
-  String titleZikr = '';
+  String titleZikr = '5';
   @override
   void initState() {
     instanceDb();
@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // print(savesZikrs.);
+    print(titleZikr);
     final widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
@@ -184,6 +184,7 @@ class _HomeState extends State<Home> {
                         const SizedBox(
                           height: 15,
                         ),
+
                         InkWell(
                           onTap: () => showDialog<String>(
                             context: context,
