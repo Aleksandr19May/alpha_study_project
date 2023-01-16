@@ -1,6 +1,6 @@
 import 'package:alpha_study_project/model/zikr.dart';
 import 'package:flutter/material.dart';
-import 'package:alpha_study_project/screens/home.dart' as savesZikrs;
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 

@@ -2,6 +2,7 @@ import 'package:alpha_study_project/model/zikr.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -74,7 +75,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print(titleZikr);
+    // print(titleZikr);
     final widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
@@ -162,8 +163,8 @@ class _HomeState extends State<Home> {
                           color: Colors.white,
                         ),
                         child: IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/settings');
+                            onPressed: () { context.go('/settings');
+                              // Navigator.of(context).pushNamed('/settings');
                             },
                             icon: const Icon(Icons.menu))),
                   ],

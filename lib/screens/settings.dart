@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class Page3 extends StatefulWidget {
-  Page3({super.key});
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
   @override
-  State<Page3> createState() => _Page3State();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _Page3State extends State<Page3> {
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -38,7 +39,7 @@ class _Page3State extends State<Page3> {
                               child: IconButton(
                                 padding: const EdgeInsets.fromLTRB(1, 1, 1, 2),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  context.go('/');
                                 },
                                 icon: const Icon(
                                   Icons.close,
