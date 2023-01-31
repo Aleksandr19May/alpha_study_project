@@ -1,4 +1,6 @@
+import 'package:alpha_study_project/generated/locale_keys.g.dart';
 import 'package:alpha_study_project/model/zikr.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,18 +25,19 @@ class Saves extends StatefulWidget {
 }
 
 class _SavesState extends State<Saves> {
-   late Box<Zikr> savesZikrs;
-   @override
+  late Box<Zikr> savesZikrs;
+  @override
   void initState() {
-    
     savesZikrs = Hive.box<Zikr>('zikrs');
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final widthScreen = MediaQuery.of(context).size.width;
 
     return Column(
+      
       children: [
         Container(
           width: widthScreen,
@@ -51,10 +54,10 @@ class _SavesState extends State<Saves> {
                 child: Column(
                   children: [
                     Row(
-                      children: const [
+                      children:  [
                         Text(
-                          'Last saved dhikrs',
-                          style: TextStyle(
+                          LocaleKeys.Last_saved_dhikrs.tr(),
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
@@ -86,8 +89,9 @@ class _SavesState extends State<Saves> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ListView.builder(
-                  reverse: true,
-                  itemCount: savesZikrs.length,
+                
+                reverse: false,
+                itemCount: savesZikrs.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
@@ -137,8 +141,9 @@ class _SavesState extends State<Saves> {
                         ),
                         SizedBox(
                           width: (widthScreen - 60) * 0.25,
-                          child: Text(DateFormat('MM-dd-yyyy HH:mm').format(savesZikrs.getAt(index)!.dateTime)
-                            ,
+                          child: Text(
+                            DateFormat('MM-dd-yyyy HH:mm')
+                                .format(savesZikrs.getAt(index)!.dateTime),
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.black54,
@@ -149,17 +154,13 @@ class _SavesState extends State<Saves> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           width: (widthScreen - 60) * 0.12,
-                          child: Image.asset(
-                            'assets/images/ellipsis.png',
-                            fit: BoxFit.fitWidth,
-                            width: 10,
-                          ),
+                          child: const Icon( Icons.change_circle ),
                         ),
                       ],
                     ),
                   );
                 },
-                ),
+              ),
               //zdes
             ),
           ),

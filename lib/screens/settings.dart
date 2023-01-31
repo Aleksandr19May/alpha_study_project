@@ -1,5 +1,9 @@
+import 'package:alpha_study_project/generated/locale_keys.g.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -38,8 +42,8 @@ class _SettingsState extends State<Settings> {
                                       const Color.fromARGB(255, 57, 92, 220)),
                               child: IconButton(
                                 padding: const EdgeInsets.fromLTRB(1, 1, 1, 2),
-                                onPressed: () {
-                                  context.go('/');
+                                onPressed: () { context.pop();
+                                  // context.go('/');
                                 },
                                 icon: const Icon(
                                   Icons.close,
@@ -73,10 +77,10 @@ class _SettingsState extends State<Settings> {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children:  [
                                       Text(
-                                        'Settings',
-                                        style: TextStyle(
+                                         LocaleKeys.Settings.tr(),
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 16, fontFamily: 'Gilroy-Black'),
                                       )
@@ -91,7 +95,7 @@ class _SettingsState extends State<Settings> {
                                         const Color.fromARGB(255, 86, 137, 255),
                                   ),
                                 ])),
-                            Container(
+                            SizedBox(
                               width: 330,
                               height: 400,
                               child: Column(
@@ -106,20 +110,36 @@ class _SettingsState extends State<Settings> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text('Language',
-                                                style: TextStyle(
+                                          children:  [
+                                             Text(LocaleKeys.Language.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16, fontFamily: 'Gilroy-Black')),
-                                            SizedBox(
-                                              width: 130,
+                                            const SizedBox(
+                                              width: 60,
                                             ),
-                                            Text('English',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 16,
-                                                    color: Color.fromARGB(
-                                                        255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
+                                            TextButton(
+                                              onPressed: (){
+                                                 context.setLocale(const Locale('en'));
+                                              },
+                                              child: const Text('En',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16,
+                                                      color: Color.fromARGB(
+                                                          255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
+                                            ),
+                                                       TextButton(
+                                                        onPressed: () {
+                                                          context.setLocale(const Locale('ru'));
+                                                        },
+                                                          child: const Text('Ru',
+                                                                                                        style: TextStyle(
+                                                                                                            fontWeight: FontWeight.w700,
+                                                                                                            fontSize: 16,
+                                                                                                            color: Color.fromARGB(
+                                                          255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
+                                                        ),
                                           ],
                                         ),
                                       )
@@ -134,23 +154,23 @@ class _SettingsState extends State<Settings> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text('Vibration',
-                                                style: TextStyle(
+                                          children:  [
+                                            Text(LocaleKeys.Vibration.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16, fontFamily: 'Gilroy-Black')),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 130,
                                             ),
-                                            Text('On',
-                                                style: TextStyle(
+                                            Text(LocaleKeys.On.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(
                                                         255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
-                                                        SizedBox(width: 15,),
-                                                        Text('Off',
-                                                style: TextStyle(
+                                                        const SizedBox(width: 15,),
+                                                         Text(LocaleKeys.Off.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(255, 238, 231, 231), fontFamily: 'Gilroy-Black')),
@@ -168,23 +188,23 @@ class _SettingsState extends State<Settings> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text('Sound',
-                                                style: TextStyle(
+                                          children:  [
+                                            Text(LocaleKeys.Sound.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16, fontFamily: 'Gilroy-Black')),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 150,
                                             ),
-                                            Text('On',
-                                                style: TextStyle(
+                                            Text(LocaleKeys.On.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(
                                                         255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
-                                                        SizedBox(width: 15,),
-                                                        Text('Off',
-                                                style: TextStyle(
+                                                        const SizedBox(width: 15,),
+                                                        Text(LocaleKeys.Off.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(255, 238, 231, 231), fontFamily: 'Gilroy-Black')),
@@ -202,23 +222,23 @@ class _SettingsState extends State<Settings> {
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text('Count as volume keys',
-                                                style: TextStyle(
+                                          children:  [
+                                            Text(LocaleKeys.Count_as_volume_keys.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16, fontFamily: 'Gilroy-Black')),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 40,
                                             ),
-                                            Text('On',
-                                                style: TextStyle(
+                                            Text(LocaleKeys.On.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(
                                                         255, 86, 137, 255), fontFamily: 'Gilroy-Black')),
-                                                        SizedBox(width: 15,),
-                                                        Text('Off',
-                                                style: TextStyle(
+                                                        const SizedBox(width: 15,),
+                                                         Text(LocaleKeys.Off.tr(),
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16,
                                                     color: Color.fromARGB(255, 238, 231, 231), fontFamily: 'Gilroy-Black')),

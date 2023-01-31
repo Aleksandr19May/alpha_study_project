@@ -1,6 +1,8 @@
+import 'package:alpha_study_project/generated/locale_keys.g.dart';
 import 'package:alpha_study_project/model/zikr.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +20,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool activity = true;
+bool color = true;
+
 
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   final String keyCounter = 'counter';
@@ -117,7 +121,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Activity',
+                                  LocaleKeys.Activity.tr(),
                                   style: TextStyle(
                                       color: activity
                                           ? Colors.white
@@ -143,7 +147,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Saved',
+                                  LocaleKeys.Saved.tr(),
                                   style: TextStyle(
                                       color: activity
                                           ? Colors.black
@@ -158,13 +162,15 @@ class _HomeState extends State<Home> {
                     Container(
                         height: 38,
                         width: 54,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.white,
+                        decoration:  BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          color: color==true? Colors.white : Colors.red ,
                         ),
                         child: IconButton(
-                            onPressed: () { context.go('/settings');
-                              // Navigator.of(context).pushNamed('/settings');
+                            onPressed: () async { 
+                                                           
+                              context.go('/settings');
+                              Navigator.of(context).pushNamed('/settings');
                             },
                             icon: const Icon(Icons.menu))),
                   ],
@@ -190,14 +196,14 @@ class _HomeState extends State<Home> {
                           onTap: () => showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Save Dhikr'),
+                              title:  Text(LocaleKeys.Save_Dhikr.tr()),
                               content: TextField(
                                 onChanged: (value) {
                                   titleZikr = value;
                                 },
-                                decoration: const InputDecoration(
-                                  hintText: 'Please enter a title Dhikr',
-                                  enabledBorder: OutlineInputBorder(
+                                decoration:  InputDecoration(
+                                  hintText: LocaleKeys.Please_enter_a_title_Dhikr.tr(),
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1,
                                       color: Colors.grey,
@@ -209,7 +215,7 @@ class _HomeState extends State<Home> {
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
+                                  child:  Text(LocaleKeys.Cancel.tr()),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -223,9 +229,9 @@ class _HomeState extends State<Home> {
                                     setState(() {});
                                     Navigator.pop(context);
                                   },
-                                  child: const Text(
-                                    'Save',
-                                    style: TextStyle(
+                                  child:  Text(
+                                    LocaleKeys.Save.tr(),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -241,10 +247,10 @@ class _HomeState extends State<Home> {
                                   BorderRadius.all(Radius.circular(10)),
                               color: Colors.white,
                             ),
-                            child: const Center(
+                            child:  Center(
                               child: Text(
-                                'Save dhikr',
-                                style: TextStyle(
+                                LocaleKeys.Save_dhikr.tr(),
+                                style: const TextStyle(
                                     color: Color.fromARGB(255, 2, 75, 202),
                                     fontSize: 16),
                               ),
@@ -257,7 +263,7 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 height: 15,
               ),
-              Expanded(
+              const Expanded(
                 child: Saves(),
                 // child: ListView.builder(
                 //   reverse: true,
