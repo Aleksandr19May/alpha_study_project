@@ -1,85 +1,31 @@
 import 'package:alpha_study_project/generated/locale_keys.g.dart';
+import 'package:alpha_study_project/main.dart';
 import 'package:alpha_study_project/model/zikr.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+// import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:intl/intl.dart';
+// import 'package:provider/provider.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  bool activity = true;
-bool color = true;
-
-
-  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  final String keyCounter = 'counter';
-  int counter = 0;
   
+ 
 
 
-  Future<void> instanceDb() async {
-    final SharedPreferences _prefs = await prefs;
-
-    
-
-    if (_prefs.getInt(keyCounter) == null) {
-      _prefs.setInt(keyCounter, 0);
-    } else {
-      counter = _prefs.getInt(keyCounter)!;
-    }
-    setState(() {});
-  }
-
-  late Box<Zikr> savesZikrs;
-  String titleZikr = '5';
-  @override
-  void initState() {
-    instanceDb();
-    savesZikrs = Hive.box<Zikr>('zikrs');
-    super.initState();
-  }
-
-  Future<void> saveCount() async {
-    setState(() {});
-
-    final SharedPreferences _prefs = await prefs;
-    _prefs.setInt(keyCounter, counter);
-  }
-
-  void increment() {
-    counter++;
-    saveCount();
-  }
-
-  void decrement() {
-    if (counter > 0) {
-      counter--;
-      saveCount();
-    }
-  }
-
-  void zeroing() {
-    if (counter > 0) {
-      counter = 0;
-      saveCount();
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    // print(titleZikr);
+    
+   final providerZikr = context.watch<ProviderZikr>();
+   
     final widthScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
@@ -106,8 +52,8 @@ bool color = true;
                         children: [
                           InkWell(
                             onTap: () {
-                              activity = true;
-                              setState(() {});
+                              context.watch<ProviderZikr>().activity=true;
+                              
                             },
                             child: Container(
                               height: 30,
@@ -115,7 +61,7 @@ bool color = true;
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: activity
+                                color: providerZikr.activity
                                     ? const Color.fromARGB(255, 2, 75, 202)
                                     : Colors.white,
                               ),
@@ -123,7 +69,7 @@ bool color = true;
                                 child: Text(
                                   LocaleKeys.Activity.tr(),
                                   style: TextStyle(
-                                      color: activity
+                                      color: providerZikr.activity
                                           ? Colors.white
                                           : Colors.black),
                                 ),
@@ -132,8 +78,7 @@ bool color = true;
                           ),
                           InkWell(
                             onTap: () {
-                              activity = false;
-                              setState(() {});
+                              context.watch<ProviderZikr>().activity=false;
                             },
                             child: Container(
                               height: 30,
@@ -141,7 +86,7 @@ bool color = true;
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: activity
+                                color: providerZikr.activity
                                     ? Colors.white
                                     : const Color.fromARGB(255, 2, 75, 202),
                               ),
@@ -149,7 +94,7 @@ bool color = true;
                                 child: Text(
                                   LocaleKeys.Saved.tr(),
                                   style: TextStyle(
-                                      color: activity
+                                      color: providerZikr.activity
                                           ? Colors.black
                                           : Colors.white),
                                 ),
@@ -164,7 +109,7 @@ bool color = true;
                         width: 54,
                         decoration:  BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          color: color==true? Colors.white : Colors.red ,
+                          color: providerZikr.color==true? Colors.white : Colors.red ,
                         ),
                         child: IconButton(
                             onPressed: () async { 
@@ -176,17 +121,17 @@ bool color = true;
                   ],
                 ),
               ),
-              activity
+             providerZikr.activity
                   ? Column(
                       children: [
                         const SizedBox(
                           height: 20,
                         ),
                         Counter(
-                          counter: counter,
-                          decrement: decrement,
-                          increment: increment,
-                          zeroing: zeroing,
+                          counter: providerZikr.counter,
+                          decrement: context.read<ProviderZikr>().decrement,
+                          increment: context.read<ProviderZikr>().increment,
+                          zeroing: context.read<ProviderZikr>().zeroing,
                         ),
                         const SizedBox(
                           height: 15,
@@ -199,7 +144,7 @@ bool color = true;
                               title:  Text(LocaleKeys.Save_Dhikr.tr()),
                               content: TextField(
                                 onChanged: (value) {
-                                  titleZikr = value;
+                                  context.watch<ProviderZikr>().titleZikr = value;
                                 },
                                 decoration:  InputDecoration(
                                   hintText: LocaleKeys.Please_enter_a_title_Dhikr.tr(),
@@ -219,14 +164,14 @@ bool color = true;
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    savesZikrs.add(
+                                    context.read<ProviderZikr>().savesZikrs.add(
                                       Zikr(
                                         dateTime: DateTime.now(),
-                                        counter: counter,
-                                        title: titleZikr,
+                                        counter: providerZikr.counter,
+                                        title: providerZikr.titleZikr,
                                       ),
                                     );
-                                    setState(() {});
+                                    
                                     Navigator.pop(context);
                                   },
                                   child:  Text(
