@@ -15,7 +15,7 @@ final List<Zikr> zikrs = [
   Zikr(dateTime: DateTime.now(), counter: 66, title: 'Шестой'),
 ];
 
-// ДЗ - контекст
+
 
 class Saves extends StatefulWidget {
   const Saves({super.key});
@@ -56,7 +56,7 @@ class _SavesState extends State<Saves> {
                     Row(
                       children:  [
                         Text(
-                          LocaleKeys.Last_saved_dhikrs.tr(),
+                          LocaleKeys.last_saved_dhikrs.tr(),
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,

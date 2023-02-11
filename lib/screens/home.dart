@@ -1,12 +1,14 @@
 import 'package:alpha_study_project/generated/locale_keys.g.dart';
-import 'package:alpha_study_project/main.dart';
-import 'package:alpha_study_project/model/zikr.dart';
+
+import 'package:alpha_study_project/screens/provider.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../model/zikr.dart';
 
 // import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:intl/intl.dart';
@@ -15,18 +17,13 @@ import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
-  
- 
-
-
-  
 
   @override
   Widget build(BuildContext context) {
-    
-   final providerZikr = context.watch<ProviderZikr>();
-   
-    final widthScreen = MediaQuery.of(context).size.width;
+    // final providerZikr = context.read<ProviderZikr>();
+
+    //final widthScreen = MediaQuery.of(context).size.width;
+    // print('ПРОВЕРЯЕМ');
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       body: SafeArea(
@@ -54,6 +51,7 @@ class Home extends StatelessWidget {
                             onTap: () {
                               context.watch<ProviderZikr>().activity=true;
                               
+                              
                             },
                             child: Container(
                               height: 30,
@@ -61,15 +59,15 @@ class Home extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: providerZikr.activity
+                                color: ProviderZikr().activity
                                     ? const Color.fromARGB(255, 2, 75, 202)
                                     : Colors.white,
                               ),
                               child: Center(
                                 child: Text(
-                                  LocaleKeys.Activity.tr(),
+                                  LocaleKeys.activity.tr(),
                                   style: TextStyle(
-                                      color: providerZikr.activity
+                                      color: ProviderZikr().activity
                                           ? Colors.white
                                           : Colors.black),
                                 ),
@@ -78,7 +76,8 @@ class Home extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              context.watch<ProviderZikr>().activity=false;
+                             context.watch<ProviderZikr>().activity=false;
+                                 
                             },
                             child: Container(
                               height: 30,
@@ -86,15 +85,15 @@ class Home extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: providerZikr.activity
+                                color: ProviderZikr().activity
                                     ? Colors.white
                                     : const Color.fromARGB(255, 2, 75, 202),
                               ),
                               child: Center(
                                 child: Text(
-                                  LocaleKeys.Saved.tr(),
+                                  LocaleKeys.saved.tr(),
                                   style: TextStyle(
-                                      color: providerZikr.activity
+                                      color: ProviderZikr().activity
                                           ? Colors.black
                                           : Colors.white),
                                 ),
@@ -107,13 +106,15 @@ class Home extends StatelessWidget {
                     Container(
                         height: 38,
                         width: 54,
-                        decoration:  BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          color: providerZikr.color==true? Colors.white : Colors.red ,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: ProviderZikr().activity
+                              ? Colors.white
+                              : Colors.red,
                         ),
                         child: IconButton(
-                            onPressed: () async { 
-                                                           
+                            onPressed: () async {
                               context.go('/settings');
                               Navigator.of(context).pushNamed('/settings');
                             },
@@ -121,33 +122,34 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-             providerZikr.activity
+            ProviderZikr().activity
                   ? Column(
                       children: [
                         const SizedBox(
                           height: 20,
                         ),
-                        Counter(
-                          counter: providerZikr.counter,
-                          decrement: context.read<ProviderZikr>().decrement,
-                          increment: context.read<ProviderZikr>().increment,
-                          zeroing: context.read<ProviderZikr>().zeroing,
-                        ),
+                         Counter(
+                            // counter: context.watch<ProviderZikr>().counter,
+                            // decrement: context.read<ProviderZikr>().decrement,
+                            // increment: context.read<ProviderZikr>().increment,
+                            // zeroing: context.read<ProviderZikr>().zeroing,
+                            ),
                         const SizedBox(
                           height: 15,
                         ),
-
                         InkWell(
                           onTap: () => showDialog<String>(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
-                              title:  Text(LocaleKeys.Save_Dhikr.tr()),
+                              title: Text(LocaleKeys.save_dhikr.tr()),
                               content: TextField(
                                 onChanged: (value) {
-                                  context.watch<ProviderZikr>().titleZikr = value;
+                                  // context.watch<ProviderZikr>().titleZikr = value;
                                 },
-                                decoration:  InputDecoration(
-                                  hintText: LocaleKeys.Please_enter_a_title_Dhikr.tr(),
+                                decoration: InputDecoration(
+                                  hintText: LocaleKeys
+                                      .please_enter_a_title_dhikr
+                                      .tr(),
                                   enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 1,
@@ -160,22 +162,22 @@ class Home extends StatelessWidget {
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(context, 'Cancel'),
-                                  child:  Text(LocaleKeys.Cancel.tr()),
+                                  child: Text(LocaleKeys.cancel.tr()),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     context.read<ProviderZikr>().savesZikrs.add(
                                       Zikr(
                                         dateTime: DateTime.now(),
-                                        counter: providerZikr.counter,
-                                        title: providerZikr.titleZikr,
+                                        counter: ProviderZikr().counter,
+                                        title: ProviderZikr().title,
                                       ),
                                     );
-                                    
+
                                     Navigator.pop(context);
                                   },
-                                  child:  Text(
-                                    LocaleKeys.Save.tr(),
+                                  child: Text(
+                                    LocaleKeys.save.tr(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -192,9 +194,9 @@ class Home extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(10)),
                               color: Colors.white,
                             ),
-                            child:  Center(
+                            child: Center(
                               child: Text(
-                                LocaleKeys.Save_dhikr.tr(),
+                                LocaleKeys.save_dhikr_2.tr(),
                                 style: const TextStyle(
                                     color: Color.fromARGB(255, 2, 75, 202),
                                     fontSize: 16),

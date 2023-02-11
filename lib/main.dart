@@ -1,5 +1,6 @@
 import 'package:alpha_study_project/generated/codegen_loader.g.dart';
 import 'package:alpha_study_project/screens/home.dart';
+import 'package:alpha_study_project/screens/provider.dart';
 import 'package:alpha_study_project/service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'model/zikr.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
@@ -20,14 +21,20 @@ void main() async {
   await Hive.initFlutter();
 
   await Hive.openBox<Zikr>('zikrs');
-  runApp(EasyLocalization(
-      assetLoader: CodegenLoader(),
-      supportedLocales: const [Locale('en'), Locale('ru')],
+
+  runApp(
+    EasyLocalization(
+      assetLoader: const CodegenLoader(),
+      supportedLocales: const [
+        Locale('ru'),
+        Locale('en'),
+      ],
       path: 'assets/translations',
-      fallbackLocale: const Locale(
-        'ru',
-      ),
-      child: const MyApp()));
+      fallbackLocale: const Locale('ru'),
+      startLocale: const Locale('ru'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 final GoRouter _router = GoRouter(
@@ -53,73 +60,44 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {return ChangeNotifierProvider(create: (context) => ProviderZikr(),
-  
-  
-    child: MaterialApp.router(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ProviderZikr(),
+      lazy: false,
+      builder: (context, child) {
+        final load = context.watch<ProviderZikr>().loadingProvider;
 
-      // routes: {
-
-      //   '/Page3': (context) => Page3(),
-      // },
-    ));
+        if (load) {
+          return MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            debugShowCheckedModeBanner: false,
+            home: const Scaffold(
+              body: Center(child: Text('Loading')),
+            ),
+          );
+        } else if (!load) {
+          return MaterialApp.router(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            routerConfig: _router,
+            debugShowCheckedModeBanner: false,
+          );
+        } else {
+          return MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            debugShowCheckedModeBanner: false,
+            home: const Scaffold(
+              body: Center(child: Text('Error')),
+            ),
+          );
+        }
+      },
+    );
   }
 }
 
-class ProviderZikr extends ChangeNotifier {
-
-  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  bool activity = true;
-  bool color = true;
-  int counter = 0;
-  String titleZikr = '5';
-  final String keyCounter = 'counter';
-  ProviderZikr() {
-    instanceDb();
-  }
-
-  Future<void> instanceDb() async {
-    final SharedPreferences _prefs = await prefs;
-
-    if (_prefs.getInt(keyCounter) == null) {
-      _prefs.setInt(keyCounter, 0);
-    } else {
-      counter = _prefs.getInt(keyCounter)!;
-    }
-    notifyListeners();
-  }
-
-  late Box<Zikr> savesZikrs;
- 
-
-  Future<void> saveCount() async {
-    notifyListeners();
-
-    final SharedPreferences _prefs = await prefs;
-    _prefs.setInt(keyCounter, counter);
-  }
-
-  void increment() {
-    counter++;
-    saveCount();
-  }
-
-  void decrement() {
-    if (counter > 0) {
-      counter--;
-      saveCount();
-    }
-  }
-
-  void zeroing() {
-    if (counter > 0) {
-      counter = 0;
-      saveCount();
-    }
-  }
-}
