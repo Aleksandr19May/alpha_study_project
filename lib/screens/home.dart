@@ -21,9 +21,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final providerZikr = context.read<ProviderZikr>();
-
-    //final widthScreen = MediaQuery.of(context).size.width;
-    // print('ПРОВЕРЯЕМ');
+final activity =context.watch<ProviderZikr>().activity;
+    
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       body: SafeArea(
@@ -49,7 +48,7 @@ class Home extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              context.watch<ProviderZikr>().activity=true;
+                              context.read<ProviderZikr>().toggleActivity(true);
                               
                               
                             },
@@ -59,7 +58,7 @@ class Home extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: ProviderZikr().activity
+                                color: activity
                                     ? const Color.fromARGB(255, 2, 75, 202)
                                     : Colors.white,
                               ),
@@ -67,7 +66,7 @@ class Home extends StatelessWidget {
                                 child: Text(
                                   LocaleKeys.activity.tr(),
                                   style: TextStyle(
-                                      color: ProviderZikr().activity
+                                      color: activity
                                           ? Colors.white
                                           : Colors.black),
                                 ),
@@ -76,7 +75,7 @@ class Home extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                             context.watch<ProviderZikr>().activity=false;
+                             context.read<ProviderZikr>().toggleActivity(false);
                                  
                             },
                             child: Container(
@@ -85,7 +84,7 @@ class Home extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
-                                color: ProviderZikr().activity
+                                color: activity
                                     ? Colors.white
                                     : const Color.fromARGB(255, 2, 75, 202),
                               ),
@@ -93,7 +92,7 @@ class Home extends StatelessWidget {
                                 child: Text(
                                   LocaleKeys.saved.tr(),
                                   style: TextStyle(
-                                      color: ProviderZikr().activity
+                                      color: activity
                                           ? Colors.black
                                           : Colors.white),
                                 ),
@@ -106,12 +105,12 @@ class Home extends StatelessWidget {
                     Container(
                         height: 38,
                         width: 54,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          color: ProviderZikr().activity
-                              ? Colors.white
-                              : Colors.red,
+                              BorderRadius.all(Radius.circular(10)),
+                          color: 
+                               Colors.white
+                             
                         ),
                         child: IconButton(
                             onPressed: () async {
@@ -122,7 +121,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-            ProviderZikr().activity
+            activity
                   ? Column(
                       children: [
                         const SizedBox(
