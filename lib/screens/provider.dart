@@ -16,11 +16,14 @@ class ProviderZikr extends ChangeNotifier {
   }
 
   void toggleActivity(bool boolevo) {
-    if (boolevo!= activity) {activity = boolevo;
-notifyListeners();
+    if (boolevo != activity) {
+      activity = boolevo;
+      notifyListeners();
     }
-    
+  }
 
+
+  Future<void> saveZikrToHive(Zikr zikr) async{
     
   }
 
