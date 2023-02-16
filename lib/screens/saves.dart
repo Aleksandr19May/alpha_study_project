@@ -1,10 +1,14 @@
+
+
 import 'package:alpha_study_project/generated/locale_keys.g.dart';
 import 'package:alpha_study_project/model/zikr.dart';
+import 'package:alpha_study_project/screens/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 final List<Zikr> zikrs = [
   Zikr(dateTime: DateTime.now(), counter: 11, title: 'Первый'),
@@ -17,25 +21,16 @@ final List<Zikr> zikrs = [
 
 
 
-class Saves extends StatefulWidget {
-  const Saves({super.key});
+class Saves extends StatelessWidget {
+ Saves({super.key});
 
-  @override
-  State<Saves> createState() => _SavesState();
-}
+ 
 
-class _SavesState extends State<Saves> {
-  late Box<Zikr> savesZikrs;
-  @override
-  void initState() {
-    savesZikrs = Hive.box<Zikr>('zikrs');
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final widthScreen = MediaQuery.of(context).size.width;
-
+final listSavedZikrsFromHive =   context.watch<ProviderZikr>().listSavedZikrsFromHive;
     return Column(
       
       children: [
@@ -91,7 +86,7 @@ class _SavesState extends State<Saves> {
               child: ListView.builder(
                 
                 reverse: false,
-                itemCount: savesZikrs.length,
+                itemCount: listSavedZikrsFromHive.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return Container(
@@ -110,7 +105,7 @@ class _SavesState extends State<Saves> {
                           width: (widthScreen - 60) * 0.15,
                           child: Center(
                             child: Text(
-                              savesZikrs.getAt(index)!.counter.toString(),
+                             listSavedZikrsFromHive[index].counter.toString(),
                               style: const TextStyle(
                                 fontSize: 20,
                                 color: Color.fromARGB(255, 2, 75, 202),
@@ -131,7 +126,7 @@ class _SavesState extends State<Saves> {
                               ),
                               Flexible(
                                 child: Text(
-                                  savesZikrs.getAt(index)!.title.toString(),
+                                  listSavedZikrsFromHive[index].title,
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.black),
                                 ),
@@ -143,7 +138,7 @@ class _SavesState extends State<Saves> {
                           width: (widthScreen - 60) * 0.25,
                           child: Text(
                             DateFormat('MM-dd-yyyy HH:mm')
-                                .format(savesZikrs.getAt(index)!.dateTime),
+                                .format(listSavedZikrsFromHive[index].dateTime),
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.black54,

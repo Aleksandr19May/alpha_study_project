@@ -6,10 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String keyCounter = 'counter';
 
 class ProviderZikr extends ChangeNotifier {
+  bool loadingProvider = true;
   bool activity = true;
   int counter = 0;
   late String title;
-  bool loadingProvider = true;
+  List<Zikr> listSavedZikrsFromHive = [];
 
   ProviderZikr() {
     preloadData();
@@ -22,9 +23,22 @@ class ProviderZikr extends ChangeNotifier {
     }
   }
 
+  Future<void> saveZikrToHive(Zikr zikr) async {
+    await Hive.openBox<Zikr>('zikrs');
+    Box<Zikr> boxZikrs = Hive.box('zikrs');
 
-  Future<void> saveZikrToHive(Zikr zikr) async{
-    
+    boxZikrs.add(zikr);
+
+    notifyListeners();
+  }
+
+  Future<void> preloadZikrsFromHive() async {
+
+await Hive.openBox<Zikr>('zikrs');
+    Box<Zikr> boxZikrs = Hive.box('zikrs');
+
+   listSavedZikrsFromHive =  boxZikrs.values.toList();
+notifyListeners();
   }
 
   Future<void> preloadData() async {
@@ -32,6 +46,7 @@ class ProviderZikr extends ChangeNotifier {
 
     if (prefs.containsKey(keyCounter)) counter = prefs.getInt(keyCounter)!;
 
+preloadZikrsFromHive();
     loadingProvider = false;
     notifyListeners();
   }

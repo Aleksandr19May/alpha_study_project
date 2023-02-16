@@ -20,7 +20,7 @@ class Counter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<ProviderZikr>();
-    print('ПЕРЕРИСУЙСЯ БЛИН');
+    
     return Container(
       height: 202,
       width: MediaQuery.of(context).size.width,
