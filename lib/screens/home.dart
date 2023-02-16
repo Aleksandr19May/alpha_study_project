@@ -6,6 +6,7 @@ import 'package:alpha_study_project/screens/saves.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 
 import '../model/zikr.dart';
@@ -21,8 +22,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final providerZikr = context.read<ProviderZikr>();
-final activity =context.watch<ProviderZikr>().activity;
-    
+    final activity = context.watch<ProviderZikr>().activity;
+    final counter = context.watch<ProviderZikr>().counter;
+    TextEditingController controller = TextEditingController();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       body: SafeArea(
@@ -49,8 +51,6 @@ final activity =context.watch<ProviderZikr>().activity;
                           InkWell(
                             onTap: () {
                               context.read<ProviderZikr>().toggleActivity(true);
-                              
-                              
                             },
                             child: Container(
                               height: 30,
@@ -75,8 +75,9 @@ final activity =context.watch<ProviderZikr>().activity;
                           ),
                           InkWell(
                             onTap: () {
-                             context.read<ProviderZikr>().toggleActivity(false);
-                                 
+                              context
+                                  .read<ProviderZikr>()
+                                  .toggleActivity(false);
                             },
                             child: Container(
                               height: 30,
@@ -106,12 +107,8 @@ final activity =context.watch<ProviderZikr>().activity;
                         height: 38,
                         width: 54,
                         decoration: const BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10)),
-                          color: 
-                               Colors.white
-                             
-                        ),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white),
                         child: IconButton(
                             onPressed: () async {
                               context.go('/settings');
@@ -121,18 +118,13 @@ final activity =context.watch<ProviderZikr>().activity;
                   ],
                 ),
               ),
-            activity
+              activity
                   ? Column(
                       children: [
                         const SizedBox(
                           height: 20,
                         ),
-                         Counter(
-                            // counter: context.watch<ProviderZikr>().counter,
-                            // decrement: context.read<ProviderZikr>().decrement,
-                            // increment: context.read<ProviderZikr>().increment,
-                            // zeroing: context.read<ProviderZikr>().zeroing,
-                            ),
+                        const Counter(),
                         const SizedBox(
                           height: 15,
                         ),
@@ -142,9 +134,11 @@ final activity =context.watch<ProviderZikr>().activity;
                             builder: (BuildContext context) => AlertDialog(
                               title: Text(LocaleKeys.save_dhikr.tr()),
                               content: TextField(
-                                onChanged: (value) {
-                                  // context.watch<ProviderZikr>().titleZikr = value;
-                                },
+                                // onChanged: (value) async {
+
+                                //    controller=controller;
+                                //   // context.watch<ProviderZikr>().titleZikr = value;
+                                // },
                                 decoration: InputDecoration(
                                   hintText: LocaleKeys
                                       .please_enter_a_title_dhikr
@@ -165,14 +159,15 @@ final activity =context.watch<ProviderZikr>().activity;
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.read<ProviderZikr>().savesZikrs.add(
-                                      Zikr(
-                                        dateTime: DateTime.now(),
-                                        counter: ProviderZikr().counter,
-                                        title: ProviderZikr().title,
-                                      ),
-                                    );
-
+                                    context.read<ProviderZikr>()..saveZikrToHive(
+                                        Zikr(
+                                            counter: counter,
+                                            dateTime: DateTime.now(),
+                                            title: controller.text),)
+//
+                                    
+                                      ..preloadZikrsFromHive()
+                                      ..zeroing();
                                     Navigator.pop(context);
                                   },
                                   child: Text(
@@ -209,7 +204,7 @@ final activity =context.watch<ProviderZikr>().activity;
               const SizedBox(
                 height: 15,
               ),
-              const Expanded(
+              Expanded(
                 child: Saves(),
                 // child: ListView.builder(
                 //   reverse: true,
@@ -294,4 +289,3 @@ final activity =context.watch<ProviderZikr>().activity;
     );
   }
 }
-
