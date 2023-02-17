@@ -58,6 +58,15 @@ preloadZikrsFromHive();
     prefs.setInt(keyCounter, counter);
   }
 
+void pushCount(int count) async {
+counter = count;
+final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(keyCounter, counter);
+notifyListeners();
+
+}
+
+
   void increment() {
     counter++;
     saveCount();

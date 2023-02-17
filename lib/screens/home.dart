@@ -134,11 +134,7 @@ class Home extends StatelessWidget {
                             builder: (BuildContext context) => AlertDialog(
                               title: Text(LocaleKeys.save_dhikr.tr()),
                               content: TextField(
-                                // onChanged: (value) async {
-
-                                //    controller=controller;
-                                //   // context.watch<ProviderZikr>().titleZikr = value;
-                                // },
+                               controller: controller,
                                 decoration: InputDecoration(
                                   hintText: LocaleKeys
                                       .please_enter_a_title_dhikr
