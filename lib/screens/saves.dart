@@ -4,10 +4,10 @@ import 'package:alpha_study_project/screens/provider.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+bool newMeaning = false;
 
 final List<Zikr> zikrs = [
   Zikr(dateTime: DateTime.now(), counter: 11, title: 'Первый'),
@@ -25,12 +25,12 @@ class Saves extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controllerNewTitle = TextEditingController();
+    TextEditingController controllerNewCount = TextEditingController();
     final widthScreen = MediaQuery.of(context).size.width;
 
     final listSaveZikrsFromHive =
         context.watch<ProviderZikr>().listSavedZikrsFromHive;
-
-    List<Zikr> listSaveZikrsFromHiveK = listSaveZikrsFromHive.reversed.toList();
 
     return Column(
       children: [
@@ -85,14 +85,14 @@ class Saves extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ListView.builder(
                 reverse: false,
-                itemCount: listSaveZikrsFromHiveK.length,
+                itemCount: listSaveZikrsFromHive.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
                       context
                           .read<ProviderZikr>()
-                          .pushCount(listSaveZikrsFromHiveK[index].counter);
+                          .pushCount(listSaveZikrsFromHive[index].counter);
                     },
                     child: Container(
                       height: 49,
@@ -110,9 +110,7 @@ class Saves extends StatelessWidget {
                             width: (widthScreen - 60) * 0.15,
                             child: Center(
                               child: Text(
-                                listSaveZikrsFromHiveK[index]
-                                    .counter
-                                    .toString(),
+                                listSaveZikrsFromHive[index].counter.toString(),
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Color.fromARGB(255, 2, 75, 202),
@@ -133,7 +131,7 @@ class Saves extends StatelessWidget {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    listSaveZikrsFromHiveK[index].title,
+                                    listSaveZikrsFromHive[index].title,
                                     style: const TextStyle(
                                         fontSize: 14, color: Colors.black),
                                   ),
@@ -145,7 +143,7 @@ class Saves extends StatelessWidget {
                             width: (widthScreen - 60) * 0.25,
                             child: Text(
                               DateFormat('MM-dd-yyyy HH:mm').format(
-                                  listSaveZikrsFromHiveK[index].dateTime),
+                                  listSaveZikrsFromHive[index].dateTime),
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.black54,
@@ -158,11 +156,11 @@ class Saves extends StatelessWidget {
                               context: context,
                               builder: ((context) => Column(children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 250),
+                                      padding: const EdgeInsets.only(top: 50),
                                       child: Material(
                                           color: Colors.transparent,
                                           child: Container(
-                                            height: 220,
+                                            height: 380,
                                             width: widthScreen * 0.95,
                                             decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
@@ -171,9 +169,10 @@ class Saves extends StatelessWidget {
                                               color: Colors.white,
                                             ),
                                             child: Column(
-
                                               children: [
-                                                const  SizedBox(height: 15,),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
@@ -188,41 +187,164 @@ class Saves extends StatelessWidget {
                                                     )
                                                   ],
                                                 ),
-                                               const  SizedBox(height: 25,),
-                                                   const Padding(
-                                                     padding:  EdgeInsets.symmetric(horizontal: 30),
-                                                     child:  TextField(
-                                                      textAlign: TextAlign.center,
-                                                                                 //  controller: controller,
-                                                                                   decoration: InputDecoration(
-                                                                                     hintText: 'Введите новое значение',
-                                                                                     enabledBorder: OutlineInputBorder(
-                                                                                       borderSide: BorderSide(
-                                                                                         width: 2,
-                                                                                         color: Colors.grey,
-                                                                                       ),
-                                                                                     ),
-                                                                                   ),
-                                                                                 ),
-                                                   ),
-                                                   const  SizedBox(height: 10,),
-                              const Padding(padding: EdgeInsets.symmetric(horizontal: 30),
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                //  controller: controller,
-                                  decoration: InputDecoration(
-                                    hintText: 'Введите новое имя',
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        width: 1,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                      'Выбранная запись:',
+                                                      style: TextStyle(
+                                                          fontSize: 20),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 100,
+                                                      height: 35,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              listSaveZikrsFromHive[
+                                                                      index]
+                                                                  .counter
+                                                                  .toString(),
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          20)),
+                                                          const SizedBox(
+                                                            width: 15,
+                                                          ),
+                                                          Text(
+                                                              listSaveZikrsFromHive[
+                                                                      index]
+                                                                  .title,
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          20)),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 120),
+                                                  child: TextField(
+                                                    controller:
+                                                        controllerNewCount,
+                                                    textInputAction:
+                                                        TextInputAction.next,
+                                                    //  inputFormatters: [FilteringTextInputFormatter.digitsOnly],  кроме цифр ничего ввести не сможете
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    textAlign: TextAlign.center,
+                                                    //  controller: controller,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 15),
+                                                      hintText: 'Новое число',
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          width: 2,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 30),
+                                                  child: TextField(
+                                                    controller:
+                                                        controllerNewTitle,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .words,
 
-
+                                                    textAlign: TextAlign.center,
+                                                    //  controller: controller,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 15),
+                                                      hintText: 'Новое имя',
+                                                      border:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          width: 1,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 25,
+                                                ),
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      listSaveZikrsFromHive[
+                                                                  index]
+                                                              .counter =
+                                                          controllerNewCount
+                                                              as int;
+                                                      context
+                                                          .read<ProviderZikr>()
+                                                          .preloadZikrsFromHive();
+                                                    },
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(Colors
+                                                                    .green)),
+                                                    child: const Text(
+                                                      'Сохранить новые данные',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 20),
+                                                    )),
+                                                const SizedBox(
+                                                  height: 15,
+                                                ),
+                                                ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(Colors
+                                                                    .red)),
+                                                    onPressed: () {
+                                                      context
+                                                          .read<ProviderZikr>()
+                                                        ..deleteZikrFromHive(
+                                                            index)
+                                                        ..preloadZikrsFromHive();
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text(
+                                                      'Стереть запись с телефона',
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 20),
+                                                    ))
                                               ],
                                             ),
                                           )),
