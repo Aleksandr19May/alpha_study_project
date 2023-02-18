@@ -32,14 +32,32 @@ class ProviderZikr extends ChangeNotifier {
     notifyListeners();
   }
 
+Future <void> deleteZikrFromHive (int index) async {
+  
+Box<Zikr> boxZikrs = Hive.box('zikrs');
+ await boxZikrs.deleteAt(index);
+  notifyListeners();
+
+}
+
+
+
   Future<void> preloadZikrsFromHive() async {
 
 await Hive.openBox<Zikr>('zikrs');
     Box<Zikr> boxZikrs = Hive.box('zikrs');
 
-   listSavedZikrsFromHive =  boxZikrs.values.toList();
+   listSavedZikrsFromHive =  boxZikrs.values.toList().reversed.toList();
 notifyListeners();
   }
+
+//  Future<void> changeZikrsinHive(Zikr zikr) async {
+
+// await Hive.openBox<Zikr>('zikrs');
+//     Box<Zikr> boxZikrs = Hive.box('zikrs');
+
+// notifyListeners();
+//   }
 
   Future<void> preloadData() async {
     final prefs = await SharedPreferences.getInstance();

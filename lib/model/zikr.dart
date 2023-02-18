@@ -1,7 +1,7 @@
 class Zikr{
 
 
-final int counter;
+ int counter;
 final DateTime dateTime;
 String title;
 

@@ -302,14 +302,16 @@ class Saves extends StatelessWidget {
                                                 ),
                                                 ElevatedButton(
                                                     onPressed: () {
-                                                      listSaveZikrsFromHive[
-                                                                  index]
-                                                              .counter =
-                                                          controllerNewCount
-                                                              as int;
+                                                      // listSaveZikrsFromHive[
+                                                      //             index]
+                                                      //         .counter =
+                                                      //     controllerNewCount.text;
+                                                              
+                                                              listSaveZikrsFromHive[index].title = controllerNewTitle.text;
                                                       context
                                                           .read<ProviderZikr>()
                                                           .preloadZikrsFromHive();
+                                                           Navigator.pop(context);
                                                     },
                                                     style: ButtonStyle(
                                                         backgroundColor:

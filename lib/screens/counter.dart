@@ -1,4 +1,4 @@
-import 'package:alpha_study_project/main.dart';
+
 import 'package:alpha_study_project/screens/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

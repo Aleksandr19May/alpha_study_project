@@ -8,8 +8,7 @@ import 'package:alpha_study_project/screens/settings.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'model/zikr.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
