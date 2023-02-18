@@ -32,23 +32,18 @@ class ProviderZikr extends ChangeNotifier {
     notifyListeners();
   }
 
-Future <void> deleteZikrFromHive (int index) async {
-  
-Box<Zikr> boxZikrs = Hive.box('zikrs');
- await boxZikrs.deleteAt(index);
-  notifyListeners();
-
-}
-
-
+  Future<void> deleteZikrFromHive(int index) async {
+    Box<Zikr> boxZikrs = Hive.box('zikrs');
+    await boxZikrs.deleteAt(index);
+    notifyListeners();
+  }
 
   Future<void> preloadZikrsFromHive() async {
-
-await Hive.openBox<Zikr>('zikrs');
+    await Hive.openBox<Zikr>('zikrs');
     Box<Zikr> boxZikrs = Hive.box('zikrs');
 
-   listSavedZikrsFromHive =  boxZikrs.values.toList().reversed.toList();
-notifyListeners();
+    listSavedZikrsFromHive = boxZikrs.values.toList().reversed.toList();
+    notifyListeners();
   }
 
 //  Future<void> changeZikrsinHive(Zikr zikr) async {
@@ -64,7 +59,7 @@ notifyListeners();
 
     if (prefs.containsKey(keyCounter)) counter = prefs.getInt(keyCounter)!;
 
-preloadZikrsFromHive();
+    preloadZikrsFromHive();
     loadingProvider = false;
     notifyListeners();
   }
@@ -76,14 +71,12 @@ preloadZikrsFromHive();
     prefs.setInt(keyCounter, counter);
   }
 
-void pushCount(int count) async {
-counter = count;
-final prefs = await SharedPreferences.getInstance();
+  void pushCount(int count) async {
+    counter = count;
+    final prefs = await SharedPreferences.getInstance();
     prefs.setInt(keyCounter, counter);
-notifyListeners();
-
-}
-
+    notifyListeners();
+  }
 
   void increment() {
     counter++;
