@@ -4,6 +4,7 @@ import 'package:alpha_study_project/screens/provider.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -240,11 +241,12 @@ class Saves extends StatelessWidget {
                                                           .symmetric(
                                                       horizontal: 120),
                                                   child: TextField(
+                                                    // maxLength: 3,
                                                     controller:
                                                         controllerNewCount,
                                                     textInputAction:
                                                         TextInputAction.next,
-                                                    //  inputFormatters: [FilteringTextInputFormatter.digitsOnly],  кроме цифр ничего ввести не сможете
+                                                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                                     keyboardType:
                                                         TextInputType.number,
                                                     textAlign: TextAlign.center,
