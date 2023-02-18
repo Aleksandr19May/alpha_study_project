@@ -54,7 +54,9 @@ class Counter extends StatelessWidget {
             color: const Color.fromARGB(255, 2, 75, 202),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: InkWell(
-              onTap: () => provider.increment(),
+              onTap: (){  
+                provider.player.play(provider.currentSound);
+                provider.increment();},
               child: SizedBox(
                   height: 154,
                   width: 154,

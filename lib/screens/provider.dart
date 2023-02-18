@@ -1,4 +1,5 @@
 import 'package:alpha_study_project/model/zikr.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,9 @@ class ProviderZikr extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  final player =AudioPlayer();
+  AssetSource currentSound = AssetSource('music/50.mp3');
 
   Future<void> saveZikrToHive(Zikr zikr) async {
     await Hive.openBox<Zikr>('zikrs');

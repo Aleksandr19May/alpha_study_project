@@ -44,6 +44,7 @@ dependencies:
   go_router: ^6.0.1
   easy_localization: ^3.0.1
   provider: ^6.0.5
+  audioplayers: ^3.0.1
  
   
   
@@ -82,9 +83,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
+    - assets/music/50.mp3
     - assets/images/used.png
     - assets/images/pic.png
     - assets/translations/
+    
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
