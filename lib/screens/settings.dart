@@ -26,8 +26,8 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     
 
-    final List<ProviderZikr> list = <ProviderZikr>[context.read<ProviderZikr>().player.play()];
-  String dropdownValue = list.first;
+  //   final List<ProviderZikr> list = <ProviderZikr>[context.read<ProviderZikr>().player.play()];
+  // String dropdownValue = list.first;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 231, 231),
@@ -213,28 +213,28 @@ class _SettingsState extends State<Settings> {
                                   const SizedBox(
                                     width: 130,
                                   ),
-                                  DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    ),
+    //                               DropdownButton<String>(
+    //   value: dropdownValue,
+    //   icon: const Icon(Icons.arrow_downward),
+    //   elevation: 16,
+    //   style: const TextStyle(color: Colors.deepPurple),
+    //   underline: Container(
+    //     height: 2,
+    //     color: Colors.deepPurpleAccent,
+    //   ),
+    //   onChanged: (String? value) {
+    //     // This is called when the user selects an item.
+    //     setState(() {
+    //       dropdownValue = value!;
+    //     });
+    //   },
+    //   items: list.map<DropdownMenuItem<String>>((String value) {
+    //     return DropdownMenuItem<String>(
+    //       value: value,
+    //       child: Text(value),
+    //     );
+    //   }).toList(),
+    // ),
     
                                 ],
                               ),
