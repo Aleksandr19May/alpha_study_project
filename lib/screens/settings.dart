@@ -1,8 +1,13 @@
 import 'package:alpha_study_project/generated/locale_keys.g.dart';
+import 'package:alpha_study_project/screens/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
+
+
+
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -11,9 +16,18 @@ class Settings extends StatefulWidget {
   State<Settings> createState() => _SettingsState();
 }
 
+
+
 class _SettingsState extends State<Settings> {
+
+
+  
   @override
   Widget build(BuildContext context) {
+    
+
+    final List<ProviderZikr> list = <ProviderZikr>[context.read<ProviderZikr>().player.play()];
+  String dropdownValue = list.first;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 231, 231),
@@ -197,25 +211,31 @@ class _SettingsState extends State<Settings> {
                                           fontSize: 16,
                                           fontFamily: 'Gilroy-Black')),
                                   const SizedBox(
-                                    width: 150,
+                                    width: 130,
                                   ),
-                                  Text(LocaleKeys.on.tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(255, 86, 137, 255),
-                                          fontFamily: 'Gilroy-Black')),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(LocaleKeys.off.tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: Color.fromARGB(
-                                              255, 238, 231, 231),
-                                          fontFamily: 'Gilroy-Black')),
+                                  DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    ),
+    
                                 ],
                               ),
                             )

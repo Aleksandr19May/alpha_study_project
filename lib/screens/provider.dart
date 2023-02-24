@@ -25,7 +25,15 @@ class ProviderZikr extends ChangeNotifier {
   }
 
   final player =AudioPlayer();
-  AssetSource currentSound = AssetSource('music/50.mp3');
+  AssetSource firstSound = AssetSource('music/1.mp3');
+  AssetSource secondSound = AssetSource('music/2.mp3');
+  AssetSource thirdSound = AssetSource('music/3.mp3');
+
+
+
+
+
+
 
   Future<void> saveZikrToHive(Zikr zikr) async {
     await Hive.openBox<Zikr>('zikrs');
