@@ -6,9 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -16,18 +13,18 @@ class Settings extends StatefulWidget {
   State<Settings> createState() => _SettingsState();
 }
 
-
-
 class _SettingsState extends State<Settings> {
-
-
-  
   @override
   Widget build(BuildContext context) {
-    
-
-  //   final List<ProviderZikr> list = <ProviderZikr>[context.read<ProviderZikr>().player.play()];
-  // String dropdownValue = list.first;
+    final provider = context.read<ProviderZikr>();
+final firstSound =  provider.player.play(provider.firstSound);
+final secondSound =  provider.player.play(provider.secondSound);
+final thirdSound =  provider.player.play(provider.thirdSound);
+    final listMusic = [
+     
+      firstSound,secondSound,thirdSound
+    ];
+    var dropdownValue = listMusic.first;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 231, 231),
@@ -213,29 +210,28 @@ class _SettingsState extends State<Settings> {
                                   const SizedBox(
                                     width: 130,
                                   ),
-    //                               DropdownButton<String>(
-    //   value: dropdownValue,
-    //   icon: const Icon(Icons.arrow_downward),
-    //   elevation: 16,
-    //   style: const TextStyle(color: Colors.deepPurple),
-    //   underline: Container(
-    //     height: 2,
-    //     color: Colors.deepPurpleAccent,
-    //   ),
-    //   onChanged: (String? value) {
-    //     // This is called when the user selects an item.
-    //     setState(() {
-    //       dropdownValue = value!;
-    //     });
-    //   },
-    //   items: list.map<DropdownMenuItem<String>>((String value) {
-    //     return DropdownMenuItem<String>(
-    //       value: value,
-    //       child: Text(value),
-    //     );
-    //   }).toList(),
-    // ),
-    
+                                                                DropdownButton<String>(
+                                    value: dropdownValue.toString(),
+                                    icon: const Icon(Icons.arrow_downward),
+                                    elevation: 16,
+                                    style: const TextStyle(color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        dropdownValue = value!;
+                                      });
+                                    },
+                                    items: listMusic.map<DropdownMenuItem<String>>(( String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value ,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ],
                               ),
                             )
