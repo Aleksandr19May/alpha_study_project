@@ -4,21 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class ProviderZikr extends ChangeNotifier {
-  final  String keyCounter = 'counter';
+  final String keyCounter = 'counter';
   final player = AudioPlayer();
-  AssetSource firstSound = AssetSource('music/1.mp3');
-  AssetSource secondSound = AssetSource('music/2.mp3');
-  AssetSource thirdSound = AssetSource('music/3.mp3');
+int x = 0;
+  List<AssetSource> listMusicMain = [
+    AssetSource('music/1.mp3'),
+    AssetSource('music/2.mp3'),
+    AssetSource('music/3.mp3'),
+    AssetSource('music/4.mp3')
+  ];
+ 
 
   bool isSoundEnabled = true;
 
   void toggleSound(bool sounded) {
-   if (sounded != isSoundEnabled) {
+    if (sounded != isSoundEnabled) {
       isSoundEnabled = sounded;
-    notifyListeners();}
+      notifyListeners();
+    }
   }
 
   void setVolume() {

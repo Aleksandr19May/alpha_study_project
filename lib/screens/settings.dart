@@ -17,11 +17,9 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<ProviderZikr>();
-    const List<String> listMusic = ['1', '2', '3'];
-    String selected = listMusic.first;
 
     bool selectedMusic = true;
- final isSoundEnabled = context.watch<ProviderZikr>().isSoundEnabled;
+    final isSoundEnabled = context.watch<ProviderZikr>().isSoundEnabled;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 231, 231),
@@ -262,31 +260,40 @@ class _SettingsState extends State<Settings> {
                                   const SizedBox(
                                     width: 40,
                                   ),
-                                  DropdownButton<String>(
-                                    value: listMusic.first,
-                                    icon: const Icon(Icons.arrow_downward),
-                                    elevation: 16,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.deepPurpleAccent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        selected = value!;
-                                      });
-                                    },
-                                    items: listMusic
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
+                                  DropdownButton<int>(
+                                      value: provider.x,
+                                      icon: const Icon(Icons.arrow_downward),
+                                      elevation: 16,
+                                      style: const TextStyle(
+                                          color: Colors.deepPurple),
+                                      underline: Container(
+                                        height: 2,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (value) {
+                                        // This is called when the user selects an item.
+                                        setState(() {
+                                          provider.x = value!;
+                                        });
+                                      },
+                                      items: const [
+                                        DropdownMenuItem(
+                                          value: 0,
+                                          child: Text('Дротик'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 1,
+                                          child: Text('Хлыст'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 2,
+                                          child: Text('Песок'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 3,
+                                          child: Text('Мышка'),
+                                        ),
+                                      ]),
                                 ],
                               ),
                             )
