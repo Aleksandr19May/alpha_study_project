@@ -17,14 +17,11 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<ProviderZikr>();
-final firstSound =  provider.player.play(provider.firstSound);
-final secondSound =  provider.player.play(provider.secondSound);
-final thirdSound =  provider.player.play(provider.thirdSound);
-    final listMusic = [
-     
-      firstSound,secondSound,thirdSound
-    ];
-    var dropdownValue = listMusic.first;
+    const List<String> listMusic = ['1', '2', '3'];
+    String selected = listMusic.first;
+
+    bool selectedMusic = true;
+ final isSoundEnabled = context.watch<ProviderZikr>().isSoundEnabled;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 238, 231, 231),
@@ -197,44 +194,55 @@ final thirdSound =  provider.player.play(provider.thirdSound);
                           children: [
                             // ignore: sized_box_for_whitespace
                             Container(
-                              width: 320,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(LocaleKeys.sound.tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          fontFamily: 'Gilroy-Black')),
-                                  const SizedBox(
-                                    width: 130,
-                                  ),
-                                                                DropdownButton<String>(
-                                    value: dropdownValue.toString(),
-                                    icon: const Icon(Icons.arrow_downward),
-                                    elevation: 16,
-                                    style: const TextStyle(color: Colors.deepPurple),
-                                    underline: Container(
-                                      height: 2,
-                                      color: Colors.deepPurpleAccent,
-                                    ),
-                                    onChanged: (String? value) {
-                                      // This is called when the user selects an item.
-                                      setState(() {
-                                        dropdownValue = value!;
-                                      });
-                                    },
-                                    items: listMusic.map<DropdownMenuItem<String>>(( String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value ,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              ),
-                            )
+                                width: 320,
+                                height: 50,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(LocaleKeys.sound.tr(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16,
+                                              fontFamily: 'Gilroy-Black')),
+                                      const SizedBox(
+                                        width: 130,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          provider.toggleSound(true);
+                                          provider.setVolume();
+                                        },
+                                        child: Text(LocaleKeys.on.tr(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: isSoundEnabled
+                                                    ? const Color.fromARGB(
+                                                        255, 86, 137, 255)
+                                                    : const Color.fromARGB(
+                                                        255, 238, 231, 231),
+                                                fontFamily: 'Gilroy-Black')),
+                                      ),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          provider.toggleSound(false);
+                                          provider.setVolume();
+                                        },
+                                        child: Text(LocaleKeys.off.tr(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: isSoundEnabled
+                                                    ? const Color.fromARGB(
+                                                        255, 238, 231, 231)
+                                                    : const Color.fromARGB(
+                                                        255, 86, 137, 255),
+                                                fontFamily: 'Gilroy-Black')),
+                                      ),
+                                    ]))
                           ],
                         ),
                         Row(
@@ -254,23 +262,31 @@ final thirdSound =  provider.player.play(provider.thirdSound);
                                   const SizedBox(
                                     width: 40,
                                   ),
-                                  Text(LocaleKeys.on.tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color:
-                                              Color.fromARGB(255, 86, 137, 255),
-                                          fontFamily: 'Gilroy-Black')),
-                                  const SizedBox(
-                                    width: 15,
+                                  DropdownButton<String>(
+                                    value: listMusic.first,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    elevation: 16,
+                                    style: const TextStyle(
+                                        color: Colors.deepPurple),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selected = value!;
+                                      });
+                                    },
+                                    items: listMusic
+                                        .map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
                                   ),
-                                  Text(LocaleKeys.off.tr(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: Color.fromARGB(
-                                              255, 238, 231, 231),
-                                          fontFamily: 'Gilroy-Black')),
                                 ],
                               ),
                             )

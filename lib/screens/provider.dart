@@ -4,9 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String keyCounter = 'counter';
+
 
 class ProviderZikr extends ChangeNotifier {
+  final  String keyCounter = 'counter';
+  final player = AudioPlayer();
+  AssetSource firstSound = AssetSource('music/1.mp3');
+  AssetSource secondSound = AssetSource('music/2.mp3');
+  AssetSource thirdSound = AssetSource('music/3.mp3');
+
+  bool isSoundEnabled = true;
+
+  void toggleSound(bool sounded) {
+   if (sounded != isSoundEnabled) {
+      isSoundEnabled = sounded;
+    notifyListeners();}
+  }
+
+  void setVolume() {
+    // установить громкость в зависимости от значения флага
+    if (isSoundEnabled) {
+      player.setVolume(1.0);
+    } else {
+      player.setVolume(0.0);
+    }
+  }
+
   bool loadingProvider = true;
   bool activity = true;
   int counter = 0;
@@ -23,17 +46,6 @@ class ProviderZikr extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  final player =AudioPlayer();
-  AssetSource firstSound = AssetSource('music/1.mp3');
-  AssetSource secondSound = AssetSource('music/2.mp3');
-  AssetSource thirdSound = AssetSource('music/3.mp3');
-
-
-
-
-
-
 
   Future<void> saveZikrToHive(Zikr zikr) async {
     await Hive.openBox<Zikr>('zikrs');
