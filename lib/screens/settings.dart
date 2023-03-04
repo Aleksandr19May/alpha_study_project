@@ -330,7 +330,7 @@ class _MyBannerState extends State<MyBanner> {
   
 
   final BannerAd myBanner = BannerAd(
-      size: AdSize.banner,
+      size: AdSize.mediumRectangle,
       adUnitId: Platform.isAndroid
           ? 'ca-app-pub-3940256099942544/6300978111'
           : 'ca-app-pub-3940256099942544/2934735716',
@@ -359,6 +359,12 @@ class _MyBannerState extends State<MyBanner> {
    myBanner.load();
     super.initState();
   }
+  @override
+  void dispose() {  // всегда выполняется также как и инит стейт
+    myBanner.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
