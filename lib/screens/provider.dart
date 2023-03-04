@@ -74,13 +74,7 @@ int x = 0;
     notifyListeners();
   }
 
-//  Future<void> changeZikrsinHive(Zikr zikr) async {
 
-// await Hive.openBox<Zikr>('zikrs');
-//     Box<Zikr> boxZikrs = Hive.box('zikrs');
-
-// notifyListeners();
-//   }
 
   Future<void> preloadData() async {
     final prefs = await SharedPreferences.getInstance();

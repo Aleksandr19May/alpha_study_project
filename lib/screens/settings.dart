@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:alpha_study_project/generated/locale_keys.g.dart';
 import 'package:alpha_study_project/screens/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
@@ -301,13 +304,71 @@ class _SettingsState extends State<Settings> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                 MyBanner(),
                 ],
               ),
-            )
+            ),
           ],
         )),
       ),
     );
+  }
+}
+
+class MyBanner extends StatefulWidget {
+  const MyBanner({super.key});
+
+  @override
+  State<MyBanner> createState() => _MyBannerState();
+}
+
+class _MyBannerState extends State<MyBanner> {
+  // ca-app-pub-3940256099942544/6300978111 //android
+  // ca-app-pub-3940256099942544/2934735716 // ios
+
+  
+
+  final BannerAd myBanner = BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-3940256099942544/6300978111'
+          : 'ca-app-pub-3940256099942544/2934735716',
+      listener: BannerAdListener(
+        // Called when an ad is successfully received.
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+        },
+        // Called when an ad request failed.
+        onAdFailedToLoad: (ad, err) {
+          debugPrint('BannerAd failed to load: error');
+          // Dispose the ad here to free resources.
+          ad.dispose();
+        },
+        // Called when an ad opens an overlay that covers the screen.
+        onAdOpened: (Ad ad) {},
+        // Called when an ad removes an overlay that covers the screen.
+        onAdClosed: (Ad ad) {},
+        // Called when an impression occurs on the ad.
+        onAdImpression: (Ad ad) {},
+      ),
+      request: const AdRequest());
+
+      @override
+  void initState() {
+   myBanner.load();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Align(
+    alignment: Alignment.center,
+    child: SizedBox(
+      width: myBanner.size.width.toDouble(),
+      height: myBanner.size.height.toDouble(),
+      child: AdWidget(ad: myBanner),
+    ),
+    ) ;
   }
 }

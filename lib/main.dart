@@ -8,18 +8,16 @@ import 'package:alpha_study_project/screens/settings.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
-
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  MobileAds.instance.initialize();
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(ZikrHiveAdapter());
   }
   await Hive.initFlutter();
-
- 
 
   runApp(
     EasyLocalization(
@@ -99,4 +97,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
