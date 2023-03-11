@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "45663027751",
+    "project_id": "zikrstudy",
+    "storage_bucket": "zikrstudy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45663027751:android:71bcbc9261fed031ba8402",
+        "android_client_info": {
+          "package_name": "com.example.alpha_study_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45663027751-bf3toabtgle1humf3m46emsfvnfpsffm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-3i3TpsDx4BJobTCxuGrvEQS4vrdn6Cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45663027751-bf3toabtgle1humf3m46emsfvnfpsffm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
