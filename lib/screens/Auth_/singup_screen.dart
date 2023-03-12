@@ -2,7 +2,7 @@ import 'package:alpha_study_project/services/snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -74,7 +74,8 @@ class _SignUpScreen extends State<SignUpScreen> {
       }
     }
 
-    navigator.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+    // navigator.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+    context.pushReplacement('/');
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:alpha_study_project/services/snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -62,7 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    navigator.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    //navigator.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    context.pushReplacement('/');
   }
 
   @override
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 30),
               TextButton(
-                onPressed: () => Navigator.of(context).pushNamed('/signup'),
+                onPressed: () => context.go('/login/signup'),
                 child: const Text(
                   'Регистрация',
                   style: TextStyle(
@@ -130,8 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed('/reset_password'),
+                onPressed: () => context.go('/login/reset_password'),
                 child: const Text('Сбросить пароль'),
               ),
             ],

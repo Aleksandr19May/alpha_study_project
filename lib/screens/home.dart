@@ -4,6 +4,7 @@ import 'package:alpha_study_project/screens/provider.dart';
 import 'package:alpha_study_project/screens/counter.dart';
 import 'package:alpha_study_project/screens/saves.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -25,6 +26,9 @@ class Home extends StatelessWidget {
     final activity = context.watch<ProviderZikr>().activity;
     final counter = context.watch<ProviderZikr>().counter;
     TextEditingController controller = TextEditingController();
+
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 246, 246),
       body: SafeArea(
@@ -40,7 +44,7 @@ class Home extends StatelessWidget {
                   children: [
                     Container(
                       height: 38,
-                      width: 276,
+                      width: 270,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         color: Colors.white,
@@ -103,18 +107,34 @@ class Home extends StatelessWidget {
                         ],
                       ),
                     ),
+                    IconButton(
+                      onPressed: () async {
+                        user != null
+                            ? user.emailVerified
+                                ? await FirebaseAuth.instance.signOut()
+                                : context.go('/login/verify_email')
+                            : context.go('/login');
+                      },
+                      icon: user != null
+                          ? user.emailVerified
+                              ? const Icon(Icons.person)
+                              : const Icon(Icons.login)
+                          : const Icon(Icons.login),
+                    ),
                     Container(
-                        height: 38,
-                        width: 54,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white),
-                        child: IconButton(
-                            onPressed: () async {
-                              context.go('/settings');
-                              Navigator.of(context).pushNamed('/settings');
-                            },
-                            icon: const Icon(Icons.menu))),
+                      height: 38,
+                      width: 40,
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white),
+                      child: IconButton(
+                        onPressed: () async {
+                          context.go('/settings');
+                          //Navigator.of(context).pushNamed('/settings');
+                        },
+                        icon: const Icon(Icons.menu),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -134,7 +154,7 @@ class Home extends StatelessWidget {
                             builder: (BuildContext context) => AlertDialog(
                               title: Text(LocaleKeys.save_dhikr.tr()),
                               content: TextField(
-                               controller: controller,
+                                controller: controller,
                                 decoration: InputDecoration(
                                   hintText: LocaleKeys
                                       .please_enter_a_title_dhikr
@@ -155,13 +175,15 @@ class Home extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.read<ProviderZikr>()..saveZikrToHive(
+                                    context.read<ProviderZikr>()
+                                      ..saveZikrToHive(
                                         Zikr(
                                             counter: counter,
                                             dateTime: DateTime.now(),
-                                            title: controller.text),)
+                                            title: controller.text),
+                                      )
 //
-                                    
+
                                       ..preloadZikrsFromHive()
                                       ..zeroing();
                                     Navigator.pop(context);

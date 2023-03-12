@@ -2,7 +2,7 @@ import 'package:alpha_study_project/services/snack_bar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -23,7 +23,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   Future<void> resetPassword() async {
-    final navigator = Navigator.of(context);
     final scaffoldMassager = ScaffoldMessenger.of(context);
 
     final isValid = formKey.currentState!.validate();
@@ -59,7 +58,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     scaffoldMassager.showSnackBar(snackBar);
 
-    navigator.pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    context.pushReplacement('/home');
   }
 
   @override
