@@ -1,8 +1,16 @@
 import 'package:alpha_study_project/generated/codegen_loader.g.dart';
+import 'package:alpha_study_project/screens/Auth_/account_screen.dart';
+import 'package:alpha_study_project/screens/Auth_/home_screen.dart';
+import 'package:alpha_study_project/screens/Auth_/login_screen.dart';
+import 'package:alpha_study_project/screens/Auth_/reset_password_screen.dart';
+import 'package:alpha_study_project/screens/Auth_/singup_screen.dart';
+import 'package:alpha_study_project/screens/Auth_/verify_email_screen.dart';
 import 'package:alpha_study_project/screens/home.dart';
 import 'package:alpha_study_project/screens/provider.dart';
 import 'package:alpha_study_project/service.dart';
+import 'package:alpha_study_project/services/firebase_streem.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_study_project/screens/settings.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +20,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
   MobileAds.instance.initialize();
   if (!Hive.isAdapterRegistered(0)) {
@@ -39,13 +48,55 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const Home();
+        return const FirebaseStream();
       },
       routes: <RouteBase>[
+         GoRoute(
+          path: 'home',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Home();
+          },
+        ),
         GoRoute(
           path: 'settings',
           builder: (BuildContext context, GoRouterState state) {
             return const Settings();
+          },
+        ),
+        GoRoute(
+          path: 'homeScreen',
+          builder: (BuildContext context, GoRouterState state) {
+            return const HomeScreen();
+          },
+        ),
+        GoRoute(
+          path: 'account',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AccountScreen();
+          },
+        ),
+        GoRoute(
+          path: 'login',
+          builder: (BuildContext context, GoRouterState state) {
+            return const LoginScreen();
+          },
+        ),
+        GoRoute(
+          path: 'signup',
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignUpScreen();
+          },
+        ),
+         GoRoute(
+          path: 'reset_password',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ResetPasswordScreen();
+          },
+        ),
+        GoRoute(
+          path: 'verify_email',
+          builder: (BuildContext context, GoRouterState state) {
+            return const VerifyEmailScreen();
           },
         ),
       ],
