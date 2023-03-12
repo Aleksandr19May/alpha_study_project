@@ -46,6 +46,9 @@ dependencies:
   provider: ^6.0.5
   audioplayers: ^3.0.1
   google_mobile_ads: ^2.3.0
+  firebase_core: ^2.7.1
+  firebase_auth: ^4.2.10
+  email_validator: ^2.1.17
  
   
   
